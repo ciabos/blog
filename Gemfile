@@ -21,7 +21,6 @@ group :development, :test do
   gem 'sqlite3'
   gem "rspec-rails", '~> 2.14.0.rc1'
   gem 'pry-rails'
-  gem 'sunspot_solr'
 
 end
 

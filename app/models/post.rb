@@ -9,16 +9,11 @@ class Post < ActiveRecord::Base
                       length: { minimum: 50 }
   validates :category_id, presence: true
 
-  def self.mysearch(title, myparams)
-    
-
+  def self.mysearch(title = '', category_id = nil, tags = nil)
     params = { where: {} }
-
-    params[:where][:category_id] = myparams[:category_id] if myparams[:category_id]
-
-    params[:where][:tags] = myparams[:tags] if myparams[:tags]
-
-    Post.search(title,params)
+    params[:where][:category_id] = category_id if category_id.present?
+    params[:where][:tags] = tags if tags && tags.any?
+    Post.search(title, params)
 
   end
 
