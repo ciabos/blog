@@ -9,7 +9,9 @@ Bundler.require(*Rails.groups)
 module Blog
   class Application < Rails::Application
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
-    config.assets.precompile += %w( active_admin.js active_admin.css active_admin/print.css )
+    config.assets.initialize_on_precompile = false
+    config.assets.precompile += %w[active_admin.css active_admin.js print.css]
+    config.assets.precompile += %w[active_admin/print.css]
 
     
     # Settings in config/environments/* take precedence over those specified here.
