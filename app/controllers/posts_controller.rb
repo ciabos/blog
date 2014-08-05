@@ -28,7 +28,6 @@ class PostsController < ApplicationController
       @posts = @posts.tagged_with(params[:tags])
     end
 
-    @posts = @posts.paginate(:page => params[:page], :per_page => 4)
   end
 
   def show
