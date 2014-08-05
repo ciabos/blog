@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title Blog
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  body
+    nav.navbar.navbar-inverse role="navigation" 
+      .container
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav
+            li
+              = link_to "Admin Panel", admin_user_session_path
+            li
+              = link_to "Home", posts_path
+
+
+    .container
+      .row
+        .col-lg-8
+          = yield
+          
+        
+
+      hr
+        footer
+          .row
+            .col-lg-12
+              p Blog by Patryk Szeliga ;)
+    

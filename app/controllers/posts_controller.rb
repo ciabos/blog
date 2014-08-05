@@ -1,45 +1,39 @@
 class PostsController < ApplicationController
 
-  def new
-    @post = Post.new
-  end
-
-  def edit
-    @post = Post.find(params[:id])
-  end
-
   def index
-    @post = Post.all
-  end
+    
+    @posts = Post.all.paginate(:page => params[:page], :per_page => 4)
 
-  def create
-    @post = Post.new(post_params)
-    if @post.save
-    redirect_to @post
-    else 
-    render new
+    if params[:title].present? 
+      @posts = Post.search(params[:title]) 
+
+      if params[:category_id].present?
+        @posts = Post.mysearch(params[:title], {category_id: params[:category_id]} )
+        if params[:tags].present? && params[:tags].any?
+          @posts = Post.mysearch(params[:title], {category_id: params[:category_id], tags: params[:tags]} )
+        end
+
+      elsif params[:tags].present? && params[:tags].any?
+        @posts = Post.mysearch(params[:title], {tags: params[:tags]} )
+      end
+
+    elsif params[:category_id].present?
+
+      @posts = @posts.where(:category_id => params[:category_id])
+      if params[:tags].present? && params[:tags].any?
+        @posts = @posts.tagged_with(params[:tags])
+      end
+
+    elsif params[:tags].present? && params[:tags].any?
+      @posts = @posts.tagged_with(params[:tags])
     end
+
+    @posts = @posts.paginate(:page => params[:page], :per_page => 4)
   end
 
   def show
     @post = Post.find(params[:id])
-  end
-
-  def update
-    @post = Post.find(params[:id])
-
-    if @post.update(post_params)
-      redirect_to @post
-    else
-      render edit
-    end
-  end
-
-  def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
-
-    redirect_to posts_path
+    @comment = @post.comments.build
   end
 
   private
@@ -47,5 +41,6 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body)
   end
+
 
 end

@@ -3,19 +3,26 @@ ruby '2.1.0'
 
 
 gem 'rails', '4.1.1'
-gem 'bootstrap-sass', '2.3.2.0'
+gem 'bootstrap-sass'
 gem 'sprockets', '2.11.0'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
-gem 'bootstrap-will_paginate', '0.0.9'
+gem 'will_paginate-bootstrap', '~> 1.0.1'
 gem 'devise'
-
-
+gem 'slim'
+gem 'activeadmin', github: 'gregbell/active_admin'
+gem "font-awesome-rails"
+gem 'acts-as-taggable-on'
+gem 'select2-rails'
+gem 'searchkick'
 
 group :development, :test do
   gem 'sqlite3'
   gem "rspec-rails", '~> 2.14.0.rc1'
+  gem 'pry-rails'
+  gem 'sunspot_solr'
+
 end
 
 group :test do

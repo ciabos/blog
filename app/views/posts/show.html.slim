@@ -1,0 +1,70 @@
+= link_to "Back", :back
+
+small 
+  br
+  | in category: 
+  = @post.category.name
+
+
+h1= @post.title
+
+p.lead = link_to "by Admin" 
+
+hr
+
+
+p
+    i.fa.fa-clock-o
+    | Posted on 
+    = @post.created_at
+hr
+
+p.lead Content:
+h2= @post.body
+hr
+
+
+
+.well
+  h4 Leave a comment :
+  
+
+  = form_for [@post, @comment], html: {class: "form-horizontal"} do |f|
+
+    .form-group class="#{@comment.errors[:name].any? ? 'has-error' : 'has-success' }" 
+      = f.label :name, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.text_field :name, class: "form-control"
+        - if @comment.errors[:name].any?
+          span.help-block
+            - @comment.errors[:name].each do |msg|
+              = msg
+              br
+
+    .form-group class="#{@comment.errors[:email].any? ? 'has-error' : 'has-success' }"
+      = f.label :email, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.text_field :email, class: "form-control"
+        - if @comment.errors[:email].any?
+          span.help-block
+            - @comment.errors[:email].each do |msg|
+              = msg
+              br
+
+    .form-group class="#{@comment.errors[:email].any? ? 'has-error' : 'has-success' }"
+      = f.label :content, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.text_area :content, class: "form-control"
+        - if @comment.errors[:content].any?
+          span.help-block
+            - @comment.errors[:content].each do |msg|
+              = msg
+              br
+
+    .form-group 
+        = f.button "Submit", class: 'btn-primary', type: "submit"
+
+p Comments: 
+= render @post.comments.order("created_at DESC")
+
+

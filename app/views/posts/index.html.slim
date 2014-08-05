@@ -1,0 +1,25 @@
+.container
+  .row
+    .col-lg-8
+      = will_paginate @posts
+      = render @posts
+
+    .col-lg-4
+      .well
+        h4 Blog Search
+        = form_tag( '/posts', method: :get , id: "search-form") do
+          .form-group
+            = text_field_tag( :title, params[:title], placeholder: "Search for title", style: 'display: block;')
+          .form-group
+            = select_tag(:category_id, options_from_collection_for_select( Category.all , "id", "name", selected: params[:category_id]), id: "category-select", style: 'display: block;' , :include_blank => true, placeholder: "Select category")
+          .form-group
+            = select_tag("tags[]" , options_from_collection_for_select( ActsAsTaggableOn::Tag.all , "name", "name", selected: params[:tags]), multiple: true, id: "tags-select", style: 'display: block;', placeholder: "Select tags")
+          .form-group
+            = submit_tag "Search" , class: "form_submit"
+            
+
+    #tag_cloud
+      - tag_cloud Post.tag_counts, %w{s m l} do |tag, css_class|
+        = link_to tag.name, posts_path("tags[]" => tag.name), class: css_class
+        span &nbsp;
+
