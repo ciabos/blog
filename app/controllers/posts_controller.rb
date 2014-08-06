@@ -1,7 +1,12 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.mysearch(params[:title], params[:category_id], params[:tags])
+    if params[:title] || params[:category_id] || params[:tags]
+      title = params[:title].present? ? params[:title] : '*'
+      @posts = Post.mysearch(title, params[:category_id], params[:tags], params[:page] || 1, 4)
+    else
+      @posts = Post.paginate(page: params[:page] || 1, per_page: 4)
+    end
   end
 
   def show
